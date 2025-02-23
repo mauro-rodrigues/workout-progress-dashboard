@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: raw_data
+    database: "{{ env_var('WORKOUT_DB_NAME', 'workout') }}"
+    schema: raw_data
+    tables:
+      - name: workout_journal

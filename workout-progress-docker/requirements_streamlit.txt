@@ -1,0 +1,6 @@
+debugpy==1.8.12
+numpy==2.2.2
+pandas==2.2.3
+plotly==6.0.0
+psycopg2-binary==2.9.10
+streamlit==1.42.0
