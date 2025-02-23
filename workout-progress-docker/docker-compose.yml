@@ -1,0 +1,37 @@
+version: '3.8'
+services:
+  workout-progress-analysis:
+    build: .
+    container_name: workout-progress-analysis
+    environment:
+      WORKOUT_DB_HOST: ${WORKOUT_DB_HOST}
+      WORKOUT_DB_PORT: ${WORKOUT_DB_PORT}
+      WORKOUT_DB_NAME: ${WORKOUT_DB_NAME}
+      WORKOUT_DB_USER: ${WORKOUT_DB_USER}
+      WORKOUT_DB_PASSWORD: ${WORKOUT_DB_PASSWORD}
+      AIRFLOW_USER: ${AIRFLOW_USER}
+      AIRFLOW_PASSWORD: ${AIRFLOW_PASSWORD}
+      AIRFLOW_DB_NAME: ${AIRFLOW_DB_NAME}
+      AIRFLOW_DB_USER: ${AIRFLOW_DB_USER}
+      AIRFLOW_DB_HOST: ${AIRFLOW_DB_HOST}
+      AIRFLOW_DB_PASSWORD: ${AIRFLOW_DB_PASSWORD}
+      WORKOUT_SHEET_URL: ${WORKOUT_SHEET_URL}
+      RUNENV: ${RUNENV}
+      DBT_TARGET: ${DBT_TARGET}
+      AIRFLOW__CORE__DAGS_FOLDER: /root/dags
+      AIRFLOW__CORE__LOAD_EXAMPLES: False
+      AIRFLOW__CORE__EXECUTOR: LocalExecutor
+      AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://${AIRFLOW_DB_USER}:${AIRFLOW_DB_PASSWORD}@${AIRFLOW_DB_HOST}:5432/${AIRFLOW_DB_NAME}
+      AIRFLOW__WEBSERVER__WEB_SERVER_MASTER_TIMEOUT: 300
+      AIRFLOW__WEBSERVER__WEB_SERVER_HOST: 0.0.0.0
+    ports: 
+      - "5680:5680"
+      - "8080:8080"
+      - "8501:8501"
+    image: workout-progress-analysis:latest
+    volumes:
+      - ./etls:/root/etls
+      - ./dags:/root/dags
+      - ./dashboard:/root/dashboard
+      - ~/.dbt:/root/.dbt
+    entrypoint: ["/root/entrypoint.sh"]
