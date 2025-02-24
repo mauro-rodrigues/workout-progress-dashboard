@@ -7,7 +7,7 @@ import plotly.express as px
 from datetime import datetime
 
 # set the title and favicon and configure the default layout to Wide
-st.set_page_config(page_title="Workout Progress Dashboard", page_icon="🤸🏼‍♂️", layout="wide")
+st.set_page_config(page_title="Workout Progress Dashboard", page_icon="favicon.ico", layout="wide")
 
 
 def get_db_connection():
