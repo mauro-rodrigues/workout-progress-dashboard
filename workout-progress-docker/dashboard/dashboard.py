@@ -108,6 +108,14 @@ if st.sidebar.button('Refresh Data'):
     st.cache_data.clear()  # Clear the cache manually
 st.sidebar.write("*DAGs run at 22:00 UTC.*")
 
+st.sidebar.markdown(
+    """
+    ---
+    **Made by Mauro Rodrigues**・<a href="https://github.com/mauro-rodrigues" target="_blank"><img src="https://i.imgur.com/b2U4zwV.png" width="17" style="margin-right: 3px;"></a><a href="https://linkedin.com/in/mauro-azevedo-rodrigues" target="_blank"><img src="https://i.imgur.com/ohzXcg1.png" width="15"></a>
+    """,
+    unsafe_allow_html=True
+)
+
 # total monthly reps
 st.subheader("Total Monthly Reps per Exercise")
 df_mom_changes_filtered.loc[:, "date"] = pd.to_datetime(
