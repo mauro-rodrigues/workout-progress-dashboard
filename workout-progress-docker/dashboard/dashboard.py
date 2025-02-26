@@ -7,7 +7,7 @@ import plotly.express as px
 from datetime import datetime
 
 # set the title and favicon and configure the default layout to Wide
-st.set_page_config(page_title="Workout Progress Dashboard", page_icon="🤸🏼‍♂️", layout="wide")
+st.set_page_config(page_title="Workout Progress Dashboard", page_icon="favicon.ico", layout="wide")
 
 
 def get_db_connection():
@@ -37,7 +37,7 @@ def load_data_mom_changes():
     conn = get_db_connection()
     current_year = datetime.now().year
     current_month = datetime.now().month
-    query = f"SELECT year, month_int, mcr.exercise, added_weight, last_month_reps, total_reps, mom_percentage_change, mom_absolute_change FROM prod.mom_changes_reps mcr WHERE ((year < {current_year}) OR (year = {current_year} AND month_int <= {current_month})) AND exercise IN ('pull-ups', 'chin-ups', 'australian pull-ups', 'push-ups', 'dips', 'straight bar dips', 'knee raises', 'leg raises', 'pike push-ups');"
+    query = f"SELECT year, month_int, month, mcr.exercise, added_weight, last_month_reps, total_reps, mom_percentage_change, mom_absolute_change FROM prod.mom_changes_reps mcr WHERE ((year < {current_year}) OR (year = {current_year} AND month_int <= {current_month})) AND exercise IN ('pull-ups', 'chin-ups', 'australian pull-ups', 'push-ups', 'dips', 'straight bar dips', 'knee raises', 'leg raises', 'pike push-ups');"
     df_mom_changes = pd.read_sql(query, conn)
     conn.close()  # close connection to avoid leaks
     return df_mom_changes
@@ -121,7 +121,7 @@ fig = px.line(
     y="total_reps",
     color="exercise",
     title="Total Monthly Reps per Exercise",
-    labels={"total_reps": "Total Reps", "date": "Date", "exercise": "Exercise"},
+    labels={"total_reps": "Total Reps", "date": "Date", "exercise": "Exercise", "display_weight": "Added Weight", "display_unit": "Weight Unit"},
     hover_data=["exercise", "total_reps", "display_weight", "display_unit"],  # include weight in hover
     markers=True,
 )
@@ -137,8 +137,8 @@ fig = px.line(
     y="mom_percentage_change",
     color="exercise",
     title="Month-on-Month % Change for Each Exercise",
-    labels={"mom_percentage_change": "MoM % Change", "date": "Date", "exercise": "Exercise"},
-    hover_data=["exercise", "display_weight", "display_unit"],  # include weight in hover
+    labels={"mom_percentage_change": "MoM % Change", "date": "Date", "exercise": "Exercise", "display_weight": "Added Weight", "display_unit": "Weight Unit", "mom_absolute_change": "MoM Absolute Change"},
+    hover_data=["exercise", "mom_percentage_change", "mom_absolute_change", "display_weight", "display_unit"],  # include weight in hover
     markers=True
 )
 
@@ -155,8 +155,9 @@ fig = px.scatter(
     y="display_weight", 
     size="total_reps", 
     color="exercise", 
-    labels={"month_int": "Month", "display_weight": "Added Weight", "exercise": "Exercise"},
     title="Added Weight Progression Over Time",
+    labels={"month_int": "Month", "display_weight": "Added Weight", "exercise": "Exercise", "display_weight": "Added Weight", "display_unit": "Weight Unit", "total_reps": "Total Reps"},
+    hover_data=["exercise","total_reps","display_weight","display_unit"],
     opacity=0.8,
     color_discrete_sequence=px.colors.qualitative.Dark24
 )
@@ -185,7 +186,8 @@ fig = px.bar(
     color="display_weight",
     text="total_reps",
     title="Stacked Bar Chart of Exercises by Weight",
-    labels={"exercise": "Exercise", "total_reps": "Total Reps", "display_weight": "Added Weight"},
+    labels={"exercise": "Exercise", "year": "Year", "total_reps": "Total Reps", "display_weight": "Added Weight", "display_unit": "Weight Unit"},
+    hover_data=["exercise","year","total_reps","display_weight","display_unit"],
     color_continuous_scale=px.colors.sequential.Sunset[::-1]
 )
 
@@ -201,7 +203,8 @@ fig_heatmap = px.density_heatmap(
     df_weekday_frequency, x="year", y="weekday", z="total_workouts",
     color_continuous_scale=px.colors.sequential.Teal, title="Workout Weekday Frequency Heatmap",
     category_orders={"weekday": weekday_order},
-    labels={"year": "Year", "weekday": "Weekday", "total_workouts": "Total Workouts"}
+    labels={"year": "Year", "weekday": "Weekday", "total_workouts": "Total Workouts"},
+    hover_data=["year","weekday","total_workouts"],
 )
 
 # update the z-axis label explicitly, so it does not spell out 'sum of Total Workouts'
