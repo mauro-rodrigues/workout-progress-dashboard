@@ -16,6 +16,14 @@ local-up-with-logs: copy-dbt-profiles
 	docker compose build --no-cache
 	docker compose up --force-recreate
 
+# stops the container without removing it, preserving images and volumes
+local-stop:
+	docker compose stop
+
+# starts the container and ensures environment variables are reapplied without rebuilding the image
+local-start:
+	docker compose up -d --force-recreate
+
 # restart the container by bringing it down and then up
 local-restart: local-down local-up
 
