@@ -103,15 +103,12 @@ year_selected = st.sidebar.selectbox("Select a Year (Scatterplot/Stacked Bar Cha
 df_mom_changes_filtered = df_mom_changes_converted[df_mom_changes_converted["display_weight"] == weight_selected]
 df_yoy_changes_filtered = df_yoy_changes_converted[df_yoy_changes_converted["year"] == year_selected]
 
-# for clearing cache
-if st.sidebar.button('Refresh Data'):
-    st.cache_data.clear()  # Clear the cache manually
+# data refresh time and socials
 st.sidebar.write("*DAGs run at 22:00 UTC.*")
-
 st.sidebar.markdown(
     """
     ---
-    **Made by Mauro Rodrigues**・<a href="https://github.com/mauro-rodrigues" target="_blank"><img src="https://i.imgur.com/b2U4zwV.png" width="17" style="margin-right: 3px;"></a><a href="https://linkedin.com/in/mauro-azevedo-rodrigues" target="_blank"><img src="https://i.imgur.com/ohzXcg1.png" width="15"></a>
+    Made by Mauro Rodrigues・<a href="https://github.com/mauro-rodrigues" target="_blank"><img src="https://i.imgur.com/b2U4zwV.png" width="17" style="margin-right: 3px;"></a><a href="https://linkedin.com/in/mauro-azevedo-rodrigues" target="_blank"><img src="https://i.imgur.com/ohzXcg1.png" width="15"></a>
     """,
     unsafe_allow_html=True
 )
