@@ -20,6 +20,21 @@ else
     echo "Admin user already exists, skipping creation."
 fi
 
+# disable remote logging completely (logs are not required for this project)
+sed -i 's/^remote_logging = .*/remote_logging = False/' /root/airflow/airflow.cfg
+
+# reduce scheduler polling to once every 6 hours (these polls add up when it comes to Supabase egress)
+sed -i 's/^scheduler_heartbeat_sec = .*/scheduler_heartbeat_sec = 300/' /root/airflow/airflow.cfg  # 5 minutes
+sed -i 's/^min_file_process_interval = .*/min_file_process_interval = 21600/' /root/airflow/airflow.cfg  # 6 hours
+
+# reduce orphaned task checking frequency
+sed -i 's/^orphaned_tasks_check_interval = .*/orphaned_tasks_check_interval = 21600/' /root/airflow/airflow.cfg  # 6 hours
+
+# cleanup old XCom records weekly
+sed -i 's/^xcom_cleanup_interval = .*/xcom_cleanup_interval = 604800/' /root/airflow/airflow.cfg  # 7 days
+
+echo "Optimized airflow.cfg to reduce database egress."
+
 # start the Airflow Scheduler in the background
 echo "Starting Airflow scheduler..."
 airflow scheduler &
