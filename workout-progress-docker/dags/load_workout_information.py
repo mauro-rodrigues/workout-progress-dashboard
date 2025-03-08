@@ -37,7 +37,7 @@ default_args = {
 LoadWorkoutInformation = DAG(
     "load_workout_information",
     default_args=default_args,
-    schedule_interval="0 22 * * *",
+    schedule_interval="0 22 * * 0",
     catchup=False
 )
 

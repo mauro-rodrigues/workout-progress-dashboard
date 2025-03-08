@@ -27,7 +27,7 @@ default_args = {
 RunProdModels = DAG(
     "run_prod_models",
     default_args=default_args,
-    schedule_interval="0 22 * * *",
+    schedule_interval="0 22 * * 0",
     catchup=False
 )
 

@@ -34,7 +34,7 @@ default_args = {
 RestartStreamlitProcess = DAG(
     'restart_streamlit_process',
     default_args=default_args,
-    schedule_interval="0 22 * * *",
+    schedule_interval="0 22 * * 0",
     catchup=False,
 )
 
