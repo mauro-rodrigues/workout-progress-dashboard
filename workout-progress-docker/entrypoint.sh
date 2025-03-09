@@ -24,7 +24,7 @@ fi
 sed -i 's/^remote_logging = .*/remote_logging = False/' /root/airflow/airflow.cfg
 
 # reduce scheduler polling to once every 6 hours (these polls add up when it comes to Supabase egress)
-sed -i 's/^scheduler_heartbeat_sec = .*/scheduler_heartbeat_sec = 300/' /root/airflow/airflow.cfg  # 5 minutes
+sed -i 's/^scheduler_heartbeat_sec = .*/scheduler_heartbeat_sec = 60/' /root/airflow/airflow.cfg  # 1 minute
 sed -i 's/^min_file_process_interval = .*/min_file_process_interval = 21600/' /root/airflow/airflow.cfg  # 6 hours
 
 # reduce orphaned task checking frequency
