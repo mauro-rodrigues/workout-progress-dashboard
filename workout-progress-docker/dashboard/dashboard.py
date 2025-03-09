@@ -17,7 +17,10 @@ def get_db_connection():
     WORKOUT_DB_NAME = os.getenv("WORKOUT_DB_NAME")
     WORKOUT_DB_USER = os.getenv("WORKOUT_DB_USER")
     WORKOUT_DB_PASSWORD = os.getenv("WORKOUT_DB_PASSWORD")
-    
+
+    # disable SSL for local connections
+    SSL_MODE = 'disable' if WORKOUT_DB_HOST == 'host.docker.internal' else 'require'
+
     # establish connection to the database
     pg_conn = psycopg2.connect(
         dbname=WORKOUT_DB_NAME,
@@ -25,7 +28,7 @@ def get_db_connection():
         password=WORKOUT_DB_PASSWORD,
         host=WORKOUT_DB_HOST,
         port=WORKOUT_DB_PORT,
-        sslmode="require"
+        sslmode=SSL_MODE
     )
 
     return pg_conn
