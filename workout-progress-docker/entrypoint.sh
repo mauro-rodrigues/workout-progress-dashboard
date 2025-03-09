@@ -24,11 +24,10 @@ fi
 sed -i 's/^remote_logging = .*/remote_logging = False/' /root/airflow/airflow.cfg
 
 # reduce scheduler polling to once every 6 hours (these polls add up when it comes to Supabase egress)
-sed -i 's/^scheduler_heartbeat_sec = .*/scheduler_heartbeat_sec = 60/' /root/airflow/airflow.cfg  # 1 minute
-sed -i 's/^min_file_process_interval = .*/min_file_process_interval = 21600/' /root/airflow/airflow.cfg  # 6 hours
+sed -i 's/^min_file_process_interval = .*/min_file_process_interval = 3600/' /root/airflow/airflow.cfg  # 1 hour
 
 # reduce orphaned task checking frequency
-sed -i 's/^orphaned_tasks_check_interval = .*/orphaned_tasks_check_interval = 21600/' /root/airflow/airflow.cfg  # 6 hours
+sed -i 's/^orphaned_tasks_check_interval = .*/orphaned_tasks_check_interval = 3600/' /root/airflow/airflow.cfg  # 1 hour
 
 # cleanup old XCom records weekly
 sed -i 's/^xcom_cleanup_interval = .*/xcom_cleanup_interval = 604800/' /root/airflow/airflow.cfg  # 7 days
