@@ -27,7 +27,7 @@ default_args = {
 RunIntermediateModels = DAG(
     "run_intermediate_models",
     default_args=default_args,
-    schedule_interval="0 22 * * 0",
+    schedule_interval="0 22 * * *",
     catchup=False
 )
 
